@@ -1,5 +1,7 @@
 # İşlem / Tavsiye Log
 
+**Son sakin-mod (açık pozisyon yokken) tam taraması:** 2026-07-21 16:30 UTC (bu satır her tam taramadan sonra güncellenir — DURUM B'nin ne zaman tekrar tam çalışacağını buradan hesapla, duvar saatine güvenme).
+
 Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade` ajanları buraya yazar ve açık kayıtların durumunu günceller. Kısa vade kayıtlarında Tarih sütunu her zaman tam UTC tarih+saat:dakika içerir (format: `YYYY-MM-DD HH:MM UTC`), çünkü hedef/stop kontrolü dakika hassasiyetinde yapılıyor.
 
 ## Özet (kısa vade)
