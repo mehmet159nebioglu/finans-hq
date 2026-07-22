@@ -5,8 +5,20 @@
 ## 1. Uzun vadeli analist — `finans-uzun-vade` subagent
 Hisse senedi, ana kripto coinler, altın/gümüş gibi varlıklarda geçmiş fiyat hareketi, güncel haberler ve makroekonomik gidişat (küresel/ABD/Türkiye) üzerinden yatırım tavsiyesi üretir. **On-demand** çalışır — kullanıcı bir enstrüman sorduğunda veya "genel piyasayı tara" dediğinde devreye girer.
 
-## 2. Kısa vadeli forex/altın robotu — `finans-kisa-vade` subagent
-Genel olarak altın (XAU/USD) üzerinde, %0.5-1 hedefli ve dar stop'lu kısa vadeli işlem fırsatlarını değerlendirir. Hem on-demand sorulabilir hem de **15 dakikada bir** çalışan bir bulut rutini üzerinden arka planda tarama yapıp fırsat gördüğünde bildirim (`PushNotification`) atar.
+## 2. Kısa vadeli forex/altın robotu — `finans-kisa-vade` (+ komite) sistemi
+Genel olarak altın (XAU/USD) üzerinde, %0.5-1 hedefli ve dar stop'lu kısa vadeli işlem fırsatlarını değerlendirir.
+
+- **On-demand:** Kullanıcı doğrudan sorduğunda `finans-kisa-vade` subagent'ı tek başına, uçtan uca çalışır.
+- **Zamanlanmış tarama (15 dakikada bir, yerel; saatlik, bulut):** `finans-kisa-vade` subagent'ı ARTIK bu modda çağrılmıyor — gecikmeyi (analiz 30-90dk sürüp piyasayı geride bırakma riski) azaltmak için üst seviye orkestratör (ana oturum) deterministik işleri (piyasa açık/kapalı testi, açık pozisyon/hedef-stop kontrolü, tek pozisyon kuralı, aritmetik doğrulama, volatilite hesabı, tazelik doğrulaması, sentez) doğrudan kendisi yapar; sadece açık pozisyon yokken iki dar kapsamlı alt-ajanı (`finans-kisa-vade-teknik`, `finans-kisa-vade-makro`) — makro en fazla saatte bir — paralel çağırır. Bildirimi de (`ntfy.sh`, çünkü `PushNotification` arka plan/bulut ortamlarında güvenilir çalışmıyor) orkestratör kendisi atar.
+
+## Mimari (zamanlanmış kısa vade taraması)
+
+Her 15dk'lık (yerel) / saatlik (bulut) tetiklemede:
+1. Orkestratör güncel fiyatı çeker, nabız bildirimi atar, `islem-log.md`'yi okur.
+2. Açık bir kısa vade pozisyonu varsa: orkestratör hedef/stop tetiklenmiş mi kendisi kontrol eder (deterministik, LLM yok), kapandıysa log'u günceller ve bildirim atar — **hiçbir alt-ajan çağrılmaz** (en büyük token/gecikme tasarrufu, pozisyonlar saatlerce açık kalabiliyor).
+3. Açık pozisyon yoksa: `finans-kisa-vade-teknik` (rejim/mum/kovalama/giriş-hedef-stop önerisi) ve gerekirse `finans-kisa-vade-makro` (son makro değerlendirmenin üzerinden ~1 saatten fazla geçtiyse; geçmediyse önbellekten kullanılır) paralel çağrılır.
+4. Orkestratör iki alt-skoru birleştirir (`güven = round((teknik+makro)/2)`), volatilite tavanını ve minimum eşiği (≥5) uygular, hedef yüzdesini kendisi hesaplayıp doğrular, log'a yazmadan hemen önce fiyatı tekrar çekip tazelik doğrulaması yapar.
+5. Sinyal varsa log'a yazar ve bildirim atar; yoksa nabız yeterlidir, ek bildirim yok.
 
 ## Veri kaynağı ve sınırlama
 Fiyat, haber ve ekonomik veriler ücretsiz/genel kaynaklardan (WebSearch/WebFetch) toplanır — gerçek zamanlı bir broker beslemesi yoktur, birkaç dakika gecikme olabilir. Bu, özellikle kısa vadeli %0.5-1 hedefli sinyallerde önemli bir sınırlamadır ve kullanıcı bunu bilerek onayladı.

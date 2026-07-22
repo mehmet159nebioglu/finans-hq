@@ -2,6 +2,8 @@
 
 Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade` ajanları buraya yazar ve açık kayıtların durumunu günceller. Kısa vade kayıtlarında Tarih sütunu her zaman tam UTC tarih+saat:dakika içerir (format: `YYYY-MM-DD HH:MM UTC`), çünkü hedef/stop kontrolü dakika hassasiyetinde yapılıyor.
 
+**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: henüz yok — ilk `finans-kisa-vade-makro` çağrısından sonra burası `yön=... | makro_güven=X/10 | saat=YYYY-MM-DD HH:MM UTC` şeklinde güncellenecek. Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
+
 ## Özet (kısa vade)
 
 | Toplam | Hedefe Ulaştı | Stop Oldu | İptal | Açık | İsabet Oranı (kapanan işlemler) |
