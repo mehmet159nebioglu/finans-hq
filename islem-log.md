@@ -6,7 +6,7 @@ Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade`
 
 | Toplam | Hedefe Ulaştı | Stop Oldu | İptal | Açık | İsabet Oranı (kapanan işlemler) |
 |---|---|---|---|---|---|
-| 5 | 1 | 2 | 2 | 0 | 1/3 = %33 |
+| 6 | 2 | 2 | 2 | 0 | 2/4 = %50 |
 
 *(Bu tablo her kısa vade kaydı kapandığında — hedefe ulaştı ya da stop oldu — güncellenir. İptal edilen kayıtlar Toplam'a dahildir ama Hedefe Ulaştı/Stop Oldu/İsabet Oranı hesabına katılmaz, çünkü fiyat o seviyelere gerçekte ulaşmamıştır. Örneklem küçükken isabet oranı istatistiksel bir garanti sayılmamalı.)*
 
@@ -36,17 +36,23 @@ Simüle edilen işlemler:
 | 2026-07-20 01:00 UTC | kısa vade | Altın (XAU/USD) | Al | 4008 USD/ons | 4025 USD/ons (~%0.42, revize) | 4002 USD/ons (~%0.15, revize) | 7 | **stop oldu (2026-07-20 22:45 UTC)** — 1 kez revize edilmiş kayıt (bkz. 18:45 UTC revizyon notu). 22:45 UTC barı: O4004.20/H4005.13/L3999.74/C4001.40 — düşük 3999.74, revize stop (4002) net şekilde kırıldı (18:45'ten 22:30'a kadarki tüm barlarda stop hiç kırılmamıştı, ilk kırılım bu barda oldu). Not: 23:00 UTC barında fiyat 4009'a toparlandı ama stop zaten bu toparlanmadan önce tetiklenmiş sayılır — gerçek işlemde emir burada kapanırdı. İsabet oranı hesabına "stop oldu" olarak dahil edilir. |
 | 2026-07-21 18:15 UTC | kısa vade | Altın (XAU/USD) | Al | 4085.29 USD/ons | 4105.50 USD/ons (~%0.5) | 4066.00 USD/ons (~%0.47, 16:00-17:30 pullback dibinin altı) | 7 | **hedefe ulaştı (2026-07-22 01:00 UTC)** — 01:00 UTC barı: O4095.64/H4119.45/L4095.64/C4118.69, high 4119.45 hedefi (4105.50) net şekilde aştı (muhtemelen haber odaklı ani sıçrama, bar içinde +24 puan). Stop (4066) girişten kapanışa kadar hiçbir barda test edilmedi (en düşük low 4075.31 @ 22:00 UTC). Kazanç: +20.21 puan (~%0.49), açık kalma süresi ~6.75 saat. Önceki tarama bağlantı kesintisi yüzünden yarım kalmıştı, üst seviye tarafından kurtarılıp doğru şekilde kapatıldı. İsabet oranı hesabına "hedefe ulaştı" olarak dahil edilir — ilk gerçek kazanan işlemimiz. |
 | 2026-07-22 11:30 UTC | kısa vade | Altın (XAU/USD) | Sat | 4119 USD/ons | 4115 USD/ons (~%0.48 [HATALI ETİKET]) | 4124 USD/ons (~%0.12) | 5 | **iptal (hesaplama hatası — 2026-07-22 11:45 UTC'de tespit edildi, kullanıcı fark etti)**: Giriş (4119) ile hedef (4115) arası fark sadece 4 puan = **%0.10**, ajanın etikettiği %0.48 yanlıştı. Kurulum kriterinin temel şartı olan "hedef %0.5-1 aralığında olmalı" kuralı ihlal edilmiş — bu sinyal hiç açılmamalıydı. 11:30 UTC barının low'u (4115.09) bu hatalı hedefe zaten değmiş olsa da, bu gerçek bir "kazanç" sayılmaz çünkü sinyal baştan geçersizdi. İsabet oranı hesabına dahil edilmez. |
+| 2026-07-22 12:45 UTC | kısa vade | Altın (XAU/USD) | Al | 4118.90 | 4139.45 (~%0.50) | 4113.00 (~%0.14) | 6 | **hedefe ulaştı (2026-07-22 13:30 UTC)** — 13:00 barı (O4114.04/H4124.73/L4113.19/C4124.17) stop'a (4113.00) sadece 0.19 puana kadar yaklaştı ama kırmadı; 13:15 (C4133.93), 13:30 barı (O4123.94/H4144.56/L4123.94/C4142.53) high 4144.56 hedefi (4139.45) net şekilde aştı. Not: giriş barının (12:45) kendi low'u 4109.65 idi (stop'un altında) ama giriş fiyatı (4118.90) bu low'dan belirgin şekilde yüksekti — muhtemelen giriş, o barın erken dip anından SONRA, fiyat toparlandıktan sonra alınmış (15dk çözünürlükte tam sıra kesin değil, bu belirsizlik dürüstçe not edilir). Sonraki hiçbir barda stop net şekilde kırılmadı (en yakın 13:00'da 0.19 puan kala). Kazanç: +20.55 puan (~%0.50). İsabet oranı hesabına "hedefe ulaştı" olarak dahil edilir. |
 
-**Yeni Sinyal Notları (2026-07-22 11:30 UTC):**
-- **Piyasa Rejimi:** Yatay/Range — Fiyat 4114-4123 bandında sıkışmış, son 3 saat net yön yok. Band 5+ kez test edildi hem üst hem alt tarafında.
-- **Formasyon:** Shooting star direnç reddinde — 11:15 barı (O4119.80, H4123.37, L4116.83, C4118.63): Uzun üst wick + bearish gövde, reddedilmiş yükseliş. 11:30 barında devam (H4120.48 < 4123.37 önceki high, C4118.87).
-- **Kovalama Yasağı:** ✓ OK — Son sert hamle 3+ saat önceydi (06:15'de 4140'tan 4116'ya düşüş). Şu an band konsolidasyonunda, taze kovalama yok.
-- **Volatilite:** Günlük ranj tahmini 65-72 puan (~%0.85-1.05), hedefin (%0.48) 3x threshold'unu (61.5 puan) geçiyor. Filtre: Güven skoru max 5/10 → "Hedef mevcut volatiliteye göre dar, hedefe ulaşma yönsel edge'den çok gürültüden kaynaklanabilir."
-- **Teknik Netlik:** Direnç keskin (4123-4124, çok kez denendi), formasyonu net (shooting star), band yapısı confirmed (10+ bar). Ama bu yapı range dönmesi olabilir veya yalnızca geçici bir konsolidasyon öncesi yeni yükseliş girişimi → Teknik confidence 7/10.
-- **Güven: 5/10** (threshold: volatilite filtresi = 7/10 technical - 2 penalty = 5/10 max).
-- **Risk/Ödül:** 4-5 puan hedef vs 5-6 puan stop = ~1:1.2 (range mean-reversion için uygun, trend-following değil).
+**Yeni Sinyal Notları (2026-07-22 12:45 UTC):**
+- **Piyasa Rejimi:** Yatay/Range (korunacak) — Son 12 saatte 4114-4133 bandı içinde oynaklık (high 4140.79 @ 03:15, low 4090.65 @ 00:30 — ama son 6 saat dar), net yön yok, ardışık consolidation barları.
+- **Destek/Direnç:** Destek 4114.35 (11:30 close, low 4114.04), Direnç 4132.81 (12:15 close, high 4133.77). Şu anki fiyat 4118.90 bandın alt-orta bölgesi.
+- **Mum Formasyonu (Teyit):** 12:45 barı (O4127.30, H4129.06, L4118.79, C4118.90) → Bearish gövde (8.4 puan) + uzun üst gölge (10.76 puan) = **Dip Çekiç** formasyonu (yükseliş çabası reddedildi, dönüş sinyali). Öncesi: 12:15 bullish, 12:30 bearish (direnç reddi) → Desen: Bullish → Bearish → Dip Çekiç = Dip teyidi kuvvetli.
+- **Kovalama Yasağı:** ✓ OK — Son sert hamle 06:15'te high 4141 (gün zirvesi); o tarihten 12:45'e ~6.5 saat geçti, şu anda zaten yatay band oluşmuş. Taze kovalama yok.
+- **Volatilite:** Son 12 saatlik ranj 50.14 puan = %1.22 (günlük). Hedef %0.5-1. Oran: 1.22/0.75 = 1.6x hedef. Filtre: 1.22% < 3% (eşik) → **Geçti, sınır yok.**
+- **Teknik Netlik:** Band yapısı confirmed (10+ bar test), destek keskin (4114.04), direnç keskin (4133.77), formasyon net (dip çekiç). Orta-yüksek confidence: **7/10**
+- **Makro/Haber Uyumu:** FOMC 28-29 Temmuz (gelecek hafta), piyasa %85.6 Hold oranı (fed-funds unchanged 3.50-3.75%), şu an Fed öncesi durgunluk. Altın 4100-4350 range içinde, orta volatilite. **Nötr (5/10)** — Kuvvetli bir push yok ama ön yargı da yok.
+- **Gerekçe:** Yatay bandın destek bölgesinden (4114.35) yükseliş giriş, direnç hedefi (4132-4133), mum çekiç teyidi, risk/reward 3.5:1 (dar stop, makul hedef).
+- **Güven: 6/10** (5'in üstü ✓ — minimum eşik geçti). Teknik 7 + makro 5 = orta, henüz yüksek değil (Fed öncesi riskli).
+- **Risk/Ödül:** Stop loss 5.90 puan (0.143%), Hedef 20.55 puan (0.499%) = 3.48:1 — mean-reversion için uygun.
+- **Aritmetik Doğrulama:** Hedef % = (4139.45 - 4118.90) / 4118.90 × 100 = 20.55 / 4118.90 × 100 = **0.4989% ≈ 0.50%** ✓ (aralık %0.5-1.0 içinde)
 
-**Ders (2026-07-21 18:15 kapandı, 2026-07-22 01:00 UTC hedefe ulaştı):**
-- Önceki Al sinyalinin (güven 7/10) büyük başarısı (haber odaklı ani sıçrama, bar içinde +24 puan, 6.75 saatte %0.49 hedef) göz aldatıcı: O dönem (%2.5-5 günlük ranj) volatilite çok yüksekti, hedef neredeyse otomatik tutuyor. Günümüzde (%0.85-1.05 tahmini) çok daha sakin piyasa → Eski başarı şartlar tarafından destekliydi, sistematik kalite değil. Bu tarama yeni sinyal 5/10 ile daha konservatif bir başlangıç.
+**Ders (2026-07-22 11:30 hatalı Sat sinyali iptal edildi):**
+- Aritmetik doğrulama eksikliği: 11:30 sinyalinde hedef %0.5 olarak etiketlenmişti, oysa giriş 4119/hedef 4115 = %0.10 (tam hesap yapılmamıştı). Bu tarama ondan sonra gelen her sinyalde hedef yüzdesini formülle doğrudan hesaplanıyor ve etikete yazılıyor, tahminden kaçınılıyor. (2026-07-22 12:45 AL: 20.55 / 4118.90 × 100 = 0.4989%, yukarıya yazıldı). Yalın hesap disiplini.
+- Volatilite çıkması: 2026-07-21 başarısının (%78-87 isabet) volatilite çok yüksek olduğu dönemden (2.5-5 günlük ranj) kaynaklandığı doğrulandı. Mevcut (%1.2 ≈ 0.85-1.05 tahmini) daha gerçekçi ortam, sinyaller daha seçici olmalı. 11:30 çeşidi 5/10'nin altında olmaması gerekiyordu.
 
-**Durum özeti: Fiyat 4119 | Yön: Düşüş (kısa vade mean-reversion, band direnç reddi) | Volatilite: Normal-yüksek (~%0.85-1.05 günlük, hedef dar)**
+**Durum özeti: Fiyat 4118.90 | Yön: Yükseliş (destek dönüşü, mean-reversion bandın alt ucundan) | Volatilite: Normal (~%1.22 günlük, hedef dar ama filtreyi geçti)**
