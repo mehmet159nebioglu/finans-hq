@@ -10,6 +10,22 @@ Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade`
 
 *(Bu tablo her kısa vade kaydı kapandığında — hedefe ulaştı ya da stop oldu — güncellenir. İptal edilen kayıtlar Toplam'a dahildir ama Hedefe Ulaştı/Stop Oldu/İsabet Oranı hesabına katılmaz, çünkü fiyat o seviyelere gerçekte ulaşmamıştır. Örneklem küçükken isabet oranı istatistiksel bir garanti sayılmamalı.)*
 
+## Özet (simülasyon — geriye dönük, hindsight'sız)
+
+**Bu, yukarıdaki gerçek işlem oranından AYRI bir ölçüttür.** Sistemin gerçek zamanlı çalışmadığı dönemlerde (teknik kesinti/tasarım hatası nedeniyle), "eğer o an çalışıyor olsaydı ne yapardı" diye adım adım (ileriye bakmadan, sadece o ana kadarki barlarla karar vererek) simüle edilen sanal işlemlerin toplamıdır. Gerçek para/gerçek kayıt değildir, sadece stratejinin tutarlılığını ek olarak test etmek için tutulur.
+
+| Toplam | Hedefe Ulaştı | Stop Oldu | İsabet Oranı |
+|---|---|---|---|
+| 4 | 3 | 1 | 3/4 = %75 |
+
+Simüle edilen işlemler:
+| Tarih/Saat (UTC) | Yön | Giriş | Hedef | Stop | Güven | Sonuç | Kaynak simülasyon |
+|---|---|---|---|---|---|---|---|
+| 2026-07-20 23:00 | Al | 4003.34 | 4033.34 | 3997.34 | 6/10 | Hedefe ulaştı (01:15) | 18.5 saatlik boşluk simülasyonu |
+| 2026-07-21 02:30 | Al | 4037.02 | 4067.02 | 4031.02 | 5/10 | Hedefe ulaştı (05:45) | 18.5 saatlik boşluk simülasyonu |
+| 2026-07-22 03:45 | Sat | 4131.36 | 4126.29 | 4140.79 | 6/10 | Hedefe ulaştı (04:00) | 10 saatlik boşluk simülasyonu |
+| 2026-07-22 08:15 | Al | 4116.97 | 4123.22 | 4114.04 | 6/10 | Stop oldu (09:45) | 10 saatlik boşluk simülasyonu |
+
 ## Kayıtlar
 
 | Tarih (UTC) | Tür | Enstrüman | Yön | Giriş | Hedef | Stop | Güven (1-10) | Durum |
