@@ -2,7 +2,7 @@
 
 Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade` ajanları buraya yazar ve açık kayıtların durumunu günceller. Kısa vade kayıtlarında Tarih sütunu her zaman tam UTC tarih+saat:dakika içerir (format: `YYYY-MM-DD HH:MM UTC`), çünkü hedef/stop kontrolü dakika hassasiyetinde yapılıyor.
 
-**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=bearish (hafif) | makro_güven=6/10 | saat=2026-07-23 20:45 UTC (gerekçe: Fed'in Temmuz'da faizi sabit tutma olasılığı %85.6 [CME Group] — yakın vadede indirim yok, bu altını baskılıyor; 4050 direnci dış kaynakça da "triple-top" olarak teyit edildi [3. kez reddedildi, 4160'tan 4050'ye düşüş]. Orta Doğu gerilimi kısmi destek veriyor ama Fed baskın faktör. FOMC 29 Temmuz. Not: teknik yönle (SAT) artık uyumlu, önceki turlardaki çelişki bu turda yok). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
+**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=bearish (hafif) | makro_güven=5/10 | saat=2026-07-23 22:30 UTC (gerekçe: Fed hold ihtimali hâlâ %85.6, hawkish bahisler altını baskılıyor, OCBC 2026 sonuna kadar düşüş bekliyor [güçlü dolar/yüksek tahvil getirisi]; ama arama sonucu biraz güncelliğini yitirmiş/karışık kaynaklıydı [bir kaynak "Salı günü İran anlaşması umuduyla yükseldi" diyor, güncel gerilim tırmanmasıyla çelişiyor], bu yüzden güven bir öncekinden düşük tutuldu. FOMC 29 Temmuz. Not: teknik yönle genelde uyumlu kalmaya devam ediyor). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
 
 ## Özet (kısa vade)
 
