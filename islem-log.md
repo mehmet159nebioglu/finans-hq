@@ -2,7 +2,7 @@
 
 Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade` ajanları buraya yazar ve açık kayıtların durumunu günceller. Kısa vade kayıtlarında Tarih sütunu her zaman tam UTC tarih+saat:dakika içerir (format: `YYYY-MM-DD HH:MM UTC`), çünkü hedef/stop kontrolü dakika hassasiyetinde yapılıyor.
 
-**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=bearish (hafif) | makro_güven=5/10 | saat=2026-07-22 20:30 UTC (gerekçe: Fed hawkish tona döndü [Warsh liderliği, Eylül hike beklentisi arttı], DXY 100.59→101.12 güçlendi; CPI düşüşü ve ABD-İran gerilimi kısmi karşı-destek. Not: makro görüş son 3 saatte bearish→bullish→bearish arasında salındı, tek başına güçlü bir sinyal olarak görülmemeli). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
+**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=bullish | makro_güven=6/10 | saat=2026-07-23 04:15 UTC (gerekçe: ABD-İran gerilimi/Hürmüz boğazı risk primi safe-haven talebi artırdı, triple-bottom + trendline kırılımı teknik olarak bullish; Fed hawkish ton ve CPI deflasyon trendi kısmi karşı-ağırlık. Not: makro görüş son 8 saatte bearish→bullish→bearish→bullish arasında sürekli salınıyor, tek başına güvenilir bir sinyal olarak görülmemeli — sadece teknik ile birlikte, düşük ağırlıkla kullan). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
 
 ## Özet (kısa vade)
 
