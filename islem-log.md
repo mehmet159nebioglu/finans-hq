@@ -32,6 +32,16 @@ Simüle edilen işlemler:
 
 *(Not: Son iki satır, kullanıcı talebiyle 2026-07-23→26 arası (son gerçek işlem kapanışından hafta sonu piyasa kapanışına kadar) gerçek Twelve Data barları üzerinde, ileriye bakmadan, mevcut tam kural setiyle [R:R 2-5, gürültü-stop koruması, min stop %0.15, volatilite filtresi] mekanik olarak çalıştırılan bir script ile üretildi — makro bileşeni yok, güven skoru bu yüzden "-" işaretli. Metodoloji önceki "boşluk simülasyonu" satırlarıyla aynı ilkeye [hindsight yok] dayanıyor ama LLM'in nitel yargısı yerine deterministik kod kullanıyor.)*
 
+## Kural Değişikliği Günlüğü (2026-07-26)
+
+7.5 haftalık (2026-06-01 → 07-23, 5000 bar) mekanik backtest ile eski kural setinin kayıplarının kök nedeni arandı, ablation testiyle her değişikliğin tek başına etkisi izole edildi:
+
+- **Bulgu 1 — trend-devam dalı hiç tetiklenmiyordu:** Trend rejimi (frac>0.6, net_pct>0.25) bar'ların %18.5'inde oluşuyordu ama trend-devam kurulumunda stop, bandın KARŞI ucuna konduğu için hedef/stop oranı sürekli ~0.9-1.3 çıkıyor, hiçbir zaman zorunlu RR 2-5 filtresini geçemiyordu — 52 sinyalin TAMAMI aslında range-fade'di. Stop'u gerçekçi bir pullback noktasına çekince trend sinyalleri tetiklendi ama net ZARARLI çıktı (%22.7 isabet, -0.13R) — bu yüzden trend-devam dalı olduğu gibi (fiilen pasif) bırakıldı, "düzeltilmedi".
+- **Bulgu 2 — tek düzeltme işe yaradı:** Kovalama yasağını tek-bar kontrolünden son 2-3 barın kümülatif net hareketine çevirmek TEK BAŞINA isabet oranını %25.0→%26.8, beklentiyi -0.02R→+0.05R yaptı VE 24 Temmuz'daki iki bilinen kayıp işlemi bağımsız olarak eledi.
+- **Bulgu 3 — iki "iyileştirme" zararlı/etkisizdi:** "Belirsiz rejim bölgesi" (frac %40-60) filtresi isabeti %26.8→%20.0'a düşürdü (kazananları da orantısız elemiş) — KALDIRILDI. "Hedefin tazeliği" kontrolünün ölçülebilir hiçbir etkisi çıkmadı (aynı sonuç) — KALDIRILDI.
+- **Bulgu 4 — hedef mesafesini küçültmek isabeti artırıyor:** Range-fade hedefini karşı bandın tamamı yerine mesafenin ~%75'i olarak almak: 26 sinyal/%30.8 isabet/+0.03R yerine 9 sinyal/%44.4 isabet/**+0.39R** verdi. %50'lik hedefte %75 isabet çıktı ama örneklem sadece 4 işlem — güvenilmez, deneysel takipte tutuluyor (bkz. `finans-kisa-vade.md`).
+- **Uygulanan nihai kural seti:** RR 2-5, min stop %0.15, gürültü-stop koruması, volatilite filtresi, min güven 5 (hepsi aynı kaldı) + kümülatif kovalama düzeltmesi (yeni, kalıcı) + range-fade hedefi = mesafenin %75'i (yeni, kalıcı). Bu kombinasyon tüm veri setinde ölçülebilir şekilde daha iyi: bkz. yukarıdaki bulgular. Bu değişiklikler `finans-kisa-vade.md`, `finans-kisa-vade-teknik.md`, yerel cron ve bulut rutinine (`trig_01KTUgFzAK3b9Jg8VXeAMF9d`) aynı gün işlendi.
+
 ## Kayıtlar
 
 | Tarih (UTC) | Tür | Enstrüman | Yön | Giriş | Hedef | Stop | Güven (1-10) | Durum |
