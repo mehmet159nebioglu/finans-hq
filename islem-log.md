@@ -18,7 +18,7 @@ Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade`
 
 | Toplam | Hedefe Ulaştı | Stop Oldu | İsabet Oranı |
 |---|---|---|---|
-| 4 | 3 | 1 | 3/4 = %75 |
+| 6 | 3 | 3 | 3/6 = %50 |
 
 Simüle edilen işlemler:
 | Tarih/Saat (UTC) | Yön | Giriş | Hedef | Stop | Güven | Sonuç | Kaynak simülasyon |
@@ -27,6 +27,10 @@ Simüle edilen işlemler:
 | 2026-07-21 02:30 | Al | 4037.02 | 4067.02 | 4031.02 | 5/10 | Hedefe ulaştı (05:45) | 18.5 saatlik boşluk simülasyonu |
 | 2026-07-22 03:45 | Sat | 4131.36 | 4126.29 | 4140.79 | 6/10 | Hedefe ulaştı (04:00) | 10 saatlik boşluk simülasyonu |
 | 2026-07-22 08:15 | Al | 4116.97 | 4123.22 | 4114.04 | 6/10 | Stop oldu (09:45) | 10 saatlik boşluk simülasyonu |
+| 2026-07-24 06:30 | Sat | 4034.48 | 4022.09 (~%0.31) | 4040.53 (~%0.15, RR 2.05) | - | Stop oldu (07:00, 2 bar) | Hafta sonu öncesi mekanik retrospektif test (2026-07-23→26, yeni R:R/gürültü-stop kuralları uygulanarak) |
+| 2026-07-24 07:45 | Sat | 4048.87 | 4022.09 (~%0.66) | 4055.37 (~%0.16, RR 4.12) | - | Stop oldu (08:45, 4 bar) | Hafta sonu öncesi mekanik retrospektif test (2026-07-23→26, yeni R:R/gürültü-stop kuralları uygulanarak) |
+
+*(Not: Son iki satır, kullanıcı talebiyle 2026-07-23→26 arası (son gerçek işlem kapanışından hafta sonu piyasa kapanışına kadar) gerçek Twelve Data barları üzerinde, ileriye bakmadan, mevcut tam kural setiyle [R:R 2-5, gürültü-stop koruması, min stop %0.15, volatilite filtresi] mekanik olarak çalıştırılan bir script ile üretildi — makro bileşeni yok, güven skoru bu yüzden "-" işaretli. Metodoloji önceki "boşluk simülasyonu" satırlarıyla aynı ilkeye [hindsight yok] dayanıyor ama LLM'in nitel yargısı yerine deterministik kod kullanıyor.)*
 
 ## Kayıtlar
 
