@@ -2,7 +2,7 @@
 
 Her satır bir tavsiye ya da sinyaldir. `finans-uzun-vade` ve `finans-kisa-vade` ajanları buraya yazar ve açık kayıtların durumunu günceller. Kısa vade kayıtlarında Tarih sütunu her zaman tam UTC tarih+saat:dakika içerir (format: `YYYY-MM-DD HH:MM UTC`), çünkü hedef/stop kontrolü dakika hassasiyetinde yapılıyor.
 
-**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=bearish (hafif-orta) | makro_güven=6/10 | saat=2026-07-30 UTC (gerekçe: FOMC 29 Temmuz'da beklendiği gibi faizi %3.50-3.75 aralığında sabit tuttu [5. kez üst üste hold] ama oylama bölünmüştü [9-3, üç bölge başkanı faiz ARTIŞI istedi] — bu hawkish sinyal olarak okundu, altın kararın ardından geriledi [~4009$'a, günlük ~-19$ düşüş]. Piyasa gelecekte faiz artışı ihtimalini daha güçlü fiyatlıyor, bu da kısa vadede altın için baskı unsuru. Not: FOMC belirsizliği artık geride kaldı, volatilite riski azaldı). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
+**Makro önbellek (kısa vade zamanlanmış tarama için):** Son makro değerlendirme: yön=nötr-hafif bullish | makro_güven=5/10 | saat=2026-08-03 09:35 UTC (gerekçe: Altın Temmuz'da ~%0.5 yükseldi [Şubat'tan beri ilk aylık artış], daha yumuşak ABD enflasyon verisi ve Fed'in faizi sabit tutması destekliyor; ama Eylül'de faiz artışı ihtimali [~%65] kazançları sınırlıyor. Net yön belirsiz/hafif pozitif, güçlü bir sinyal değil). Orkestratör bu satırın üzerinden ~60-90 dk geçmediyse yeni bir makro çağrısı yapmadan bu değeri yeniden kullanır.
 
 ## Özet (kısa vade)
 
