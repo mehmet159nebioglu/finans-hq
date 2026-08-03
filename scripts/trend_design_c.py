@@ -17,6 +17,7 @@ NOT: Bu script sadece SINYAL VAR MI/YOK MU ve giris/hedef/stop seviyelerini hesa
 Islem acma/kapama, log yazma, git commit orkestratorun (ust seviye ajan) sorumlulugunda.
 """
 import sys, json
+from datetime import datetime, timedelta, timezone
 
 def ema_series(closes, period):
     k = 2/(period+1)
@@ -144,11 +145,30 @@ def check_signal(bars, adx_min=20, atr_mult=1.5, rr_target=2.0):
         'adx': round(adx[i], 1), 'rsi': round(rsi[i], 1),
     }
 
+def drop_unclosed_last_bar(bars, interval_minutes=15):
+    """Twelve Data bazen henuz kapanmamis (olusum halindeki) son bari da donduruyor -
+    bu barin kapanis fiyati saniyeler icinde degisebiliyor, bu da sinyalin birkac
+    dakika icinde titremesine (once var sonra yok gorunmesine) neden oluyordu.
+    Son barin baslangic zamani + interval, simdiki UTC zamanindan sonraysa
+    (yani bar henuz kapanmadiysa) o bari at, bir onceki (kesin kapanmis) barla devam et."""
+    if not bars:
+        return bars
+    try:
+        last_dt = datetime.fromisoformat(bars[-1]['dt']).replace(tzinfo=timezone.utc)
+    except ValueError:
+        return bars
+    now = datetime.now(timezone.utc)
+    bar_close_time = last_dt + timedelta(minutes=interval_minutes)
+    if now < bar_close_time:
+        return bars[:-1]
+    return bars
+
 if __name__ == '__main__':
     with open(sys.argv[1]) as f:
         d = json.load(f)
     vals = list(reversed(d['values']))
     bars = [{'dt': v['datetime'], 'o': float(v['open']), 'h': float(v['high']),
              'l': float(v['low']), 'c': float(v['close'])} for v in vals]
+    bars = drop_unclosed_last_bar(bars)
     result = check_signal(bars)
     print(json.dumps(result, ensure_ascii=False, indent=2))
